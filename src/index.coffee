@@ -9,7 +9,8 @@ isJsonFile = (path) ->
 wrap = (path, config) ->
   return {
     path: -> path
-    get: (relativePath) ->
+    getRaw: (relativePath) -> @get relativePath, true
+    get: (relativePath, raw) ->
       newPath = path
       tokens = relativePath.split '.'
 
@@ -20,13 +21,14 @@ wrap = (path, config) ->
         return result
       ), config
 
-      return if _.isPlainObject result then wrap newPath, result else result
+      return if (_.isPlainObject(result) && !raw) then wrap newPath, result else result
   }
 
 
 config =
-  get:  -> throw new Error 'Config has not been initialized!'
-  path: -> throw new Error 'Config has not been initialized!'
+  get:    -> throw new Error 'Config has not been initialized!'
+  getRaw: -> throw new Error 'Config has not been initialized!'
+  path:   -> throw new Error 'Config has not been initialized!'
   initialize: (options) ->
     options = _.extend { path: 'config', encoding: 'utf8' }, options
 

@@ -49,6 +49,15 @@
       assert.equal(testConfig.path(), 'test', 'Incorrect path in config object');
       return assert.equal(testConfig.get('nested').path(), 'test.nested', 'Incorrect path in nested object');
     });
+    it('Should return raw config objects', function() {
+      var nested, testConfig;
+      testConfig = config.get('test');
+      nested = {
+        "aValue": "testerly"
+      };
+      assert.deepEqual(testConfig.get('nested', true), nested, '`get` with raw flag failed');
+      return assert.deepEqual(testConfig.getRaw('nested'), nested, '`getRaw` failed');
+    });
     it('Should return values present in example file', function() {
       assert.deepEqual(config.get('test.anArray'), [0, 1, 2, 3]);
       assert.equal(config.get('test.fiftyFour'), 54);
