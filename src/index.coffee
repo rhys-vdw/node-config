@@ -30,6 +30,9 @@ config =
   getRaw: -> throw new Error 'Config has not been initialized!'
   path:   -> throw new Error 'Config has not been initialized!'
   initialize: (options) ->
+    if _.isString options
+      options = path: options
+
     options = _.extend { path: 'config', encoding: 'utf8' }, options
 
     # Get path to config directory.
