@@ -1,8 +1,8 @@
 {
   "name": "config",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A simple config file manager.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": ""
   },
