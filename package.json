@@ -1,0 +1,21 @@
+{
+  "name": "config",
+  "version": "0.0.0",
+  "description": "A simple config file manager.",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "author": "thank-etc-ok",
+  "license": "ISC",
+  "dependencies": {
+    "lodash-node": "^2.4.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-coffee": "^2.1.1",
+    "gulp-mocha": "^0.5.2",
+    "gulp-util": "^3.0.0",
+    "mocha": "^1.21.3"
+  }
+}

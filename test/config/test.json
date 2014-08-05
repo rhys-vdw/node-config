@@ -1,0 +1,9 @@
+{
+  "anArray": [0, 1, 2, 3],
+  "fiftyFour": 54,
+  "aString": "Hello, World!",
+  "override": false,
+  "nested": {
+    "aValue": "testerly"
+  }
+}
