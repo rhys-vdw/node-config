@@ -4,9 +4,9 @@
   "description": "A simple config file manager.",
   "main": "lib/index.js",
   "scripts": {
-    "test": ""
+    "start": "node lib/index.js"
   },
-  "author": "thank-etc-ok",
+  "author": "Rhys van der Waerden <rhys.vdw@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "lodash-node": "^2.4.1"
