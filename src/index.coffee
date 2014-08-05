@@ -24,36 +24,41 @@ wrap = (path, config) ->
   }
 
 
-config = (options) ->
-  options = _.extend { path: 'config', encoding: 'utf8' }, options
+config =
+  get:  -> throw new Error 'Config has not been initialized!'
+  path: -> throw new Error 'Config has not been initialized!'
+  initialize: (options) ->
+    options = _.extend { path: 'config', encoding: 'utf8' }, options
 
-  # Get path to config directory.
-  dir = path.resolve process.cwd(), options.path
-  if ! fs.existsSync dir
-    throw new Error "Could not find config directory '#{ dir }'!"
+    # Get path to config directory.
+    dir = path.resolve process.cwd(), options.path
+    if ! fs.existsSync dir
+      throw new Error "Could not find config directory '#{ dir }'!"
 
-  exists = (fileName) ->
-    fs.existsSync path.resolve(dir, "#{ fileName }.json")
+    exists = (fileName) ->
+      fs.existsSync path.resolve(dir, "#{ fileName }.json")
 
-  readJson = (fileName) ->
-    JSON.parse fs.readFileSync path.resolve(dir, "#{ fileName }.json")
+    readJson = (fileName) ->
+      JSON.parse fs.readFileSync path.resolve(dir, "#{ fileName }.json")
 
-  addConfig = (result, name) ->
-    defaultConfig = readJson name
+    addConfig = (result, name) ->
+      defaultConfig = readJson name
 
-    if exists "#{ name }.local"
-      localConfig = readJson "#{ name }.local"
+      if exists "#{ name }.local"
+        localConfig = readJson "#{ name }.local"
 
-    result[name] = _.merge defaultConfig, localConfig
+      result[name] = _.merge defaultConfig, localConfig
 
-  # Get a list of files names unique before the first period.
-  baseConfig = _(fs.readdirSync dir)
-    .filter isJsonFile
-    .map (filename) -> _.first filename.split('.')
-    .unique()
-    .transform addConfig, {}
-    .value()
+    # Get a list of files names unique before the first period.
+    baseConfig = _(fs.readdirSync dir)
+      .filter isJsonFile
+      .map (filename) -> _.first filename.split('.')
+      .unique()
+      .transform addConfig, {}
+      .value()
 
-  return wrap '', baseConfig
+    # Override get and path members.
+    _.extend @, wrap '', baseConfig
+    @.initialize = -> throw new Error 'Already initialized!'
 
 exports = module.exports = config

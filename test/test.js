@@ -3,18 +3,44 @@
 
   assert = require('assert');
 
-  config = null;
+  config = require('../lib/index');
 
   describe('config', function() {
-    it('Should find the correct folder', function() {
+    it('Should fail when not initialized', function() {
       var e;
       try {
-        return config = require('../lib/index')({
+        config.get('test');
+        assert.fail(e, 'exception', 'Managed to call `get` when not initialized', 'get');
+      } catch (_error) {
+        e = _error;
+      }
+      try {
+        config.path();
+        return assert.fail(e, 'exception', 'Managed to call `path` when not initialized', 'path');
+      } catch (_error) {
+        e = _error;
+      }
+    });
+    it('Should find the correct folder when initialized', function() {
+      var e;
+      try {
+        return config.initialize({
           path: 'test/config'
         });
       } catch (_error) {
         e = _error;
-        return assert.fail(e, 'success', 'Couldnt find the folder', 'require');
+        return assert.fail(e, 'initialization', 'Couldnt find the folder', 'initialize');
+      }
+    });
+    it('Should fail when initialized twice', function() {
+      var e;
+      try {
+        config.initialize({
+          path: 'test/config'
+        });
+        return assert.fail(e, 'initialization', 'Initialized twice', 'initialize');
+      } catch (_error) {
+        e = _error;
       }
     });
     it('Should recursively return config objects', function() {

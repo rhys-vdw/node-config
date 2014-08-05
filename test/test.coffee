@@ -1,13 +1,30 @@
 assert = require 'assert'
-config = null
+config = require('../lib/index')
 
 describe 'config', ->
 
-  it 'Should find the correct folder', ->
+  it 'Should fail when not initialized', ->
     try
-      config = require('../lib/index')(path: 'test/config')
+      config.get 'test'
+      assert.fail(e, 'exception', 'Managed to call `get` when not initialized', 'get')
     catch e
-      assert.fail(e, 'success', 'Couldnt find the folder', 'require')
+
+    try
+      config.path()
+      assert.fail(e, 'exception', 'Managed to call `path` when not initialized', 'path')
+    catch e
+
+  it 'Should find the correct folder when initialized', ->
+    try
+      config.initialize path: 'test/config'
+    catch e
+      assert.fail(e, 'initialization', 'Couldnt find the folder', 'initialize')
+
+  it 'Should fail when initialized twice', ->
+    try
+      config.initialize path: 'test/config'
+      assert.fail(e, 'initialization', 'Initialized twice', 'initialize')
+    catch e
 
   it 'Should recursively return config objects', ->
     testConfig = config.get('test')
