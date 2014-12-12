@@ -21,7 +21,7 @@ wrap = (path, config) ->
         return result
       ), config
 
-      return if (_.isPlainObject(result) && !raw) then wrap newPath, result else result
+      return if (_.isPlainObject(result) && !raw) then wrap newPath, result else _.cloneDeep result
   }
 
 
