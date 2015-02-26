@@ -40,6 +40,8 @@ config =
     if ! fs.existsSync dir
       throw new Error "Could not find config directory '#{ dir }'!"
 
+    console.log "Loading config from #{ dir }"
+
     exists = (fileName) ->
       fs.existsSync path.resolve(dir, "#{ fileName }.json")
 
